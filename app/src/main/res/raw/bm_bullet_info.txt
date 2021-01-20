@@ -1,0 +1,5 @@
+SPRITES
+5000:5,5,7,7,0   // Bullet
+
+ANIMATIONS
+5000:5000        // Bullet

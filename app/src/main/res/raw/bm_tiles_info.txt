@@ -1,0 +1,26 @@
+SPRITES
+0000:  0, 0,16,16,0      // Empty sky
+0001: 16, 0,16,16,0      // Sky semi
+0002: 32, 0,16,16,0      // Sky dark
+0003: 48, 0,16,16,0      // Box
+0004: 64, 0,16,16,0      // Plant left
+0005: 80, 0,16,16,0      // Plant center
+0006: 96, 0,16,16,0      // Plant right
+0007:  0,16,16,16,0      // Cloud left
+0008: 16,16,16,16,0      // Cloud right
+0009: 32,16,16,16,0      // Ground single
+0010: 48,16,16,16,0      // Column
+0011: 64,16,16,16,0      // Platform left
+0012: 80,16,16,16,0      // Platform center
+0013: 96,16,16,16,0      // Platform right
+0014:  0,32,16,16,0      // Plant A
+0015: 16,32,16,16,0      // Plant B
+0016: 32,32,16,16,0      // Plant C
+0017: 48,32,16,16,0      // Plant single
+0018: 64,32,16,16,0      // Ground left
+0019: 80,32,16,16,0      // Ground center
+0020: 96,32,16,16,0      // Ground right	
+
+ANIMATIONS
+0003: 0003                                                                        // Box (shot)
+0015: 0015,0016,0015x2,0016x2,0015x4,0016x4,0015x2,0016x2,0015,0016               // Poisonous plant
