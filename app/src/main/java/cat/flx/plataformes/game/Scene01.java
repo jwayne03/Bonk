@@ -41,19 +41,19 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
 
         // Create the main character (player)
         this.bonk = new Bonk(game, 0, 0);
-        bonk.reset(0,0);
+        bonk.reset(0, 0);
         this.add(bonk);
 
         // On screen touch keys
-        touchKeyLeft = new TouchKey(game, 0, (int)(getScaledHeight() - 64), 64, 64, 32, "<");
+        touchKeyLeft = new TouchKey(game, 0, (int) (getScaledHeight() - 64), 64, 64, 32, "<");
         touchKeyLeft.setUseTranslatedPixels(false);
         touchKeyLeft.setOnTouchEventListener(this, false);
         this.add(touchKeyLeft);
-        touchKeyRight = new TouchKey(game, 64, (int)(getScaledHeight() - 64), 64, 64, 32, ">");
+        touchKeyRight = new TouchKey(game, 64, (int) (getScaledHeight() - 64), 64, 64, 32, ">");
         touchKeyRight.setUseTranslatedPixels(false);
         touchKeyRight.setOnTouchEventListener(this, false);
         this.add(touchKeyRight);
-        touchKeyJump = new TouchKey(game, (int)(getScaledWidth() - 64), (int)(getScaledHeight() - 64), 64, 64, 32, "^");
+        touchKeyJump = new TouchKey(game, (int) (getScaledWidth() - 64), (int) (getScaledHeight() - 64), 64, 64, 32, "^");
         touchKeyJump.setUseTranslatedPixels(false);
         touchKeyJump.setOnTouchEventListener(this, true);
         this.add(touchKeyJump);
@@ -63,7 +63,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         // The screen will hold 16 rows of tiles (16px height each)
         this.setScaledHeight(16 * 16);
         // Pre-loading of sound effects
-        game.getAudio().loadSoundFX(new int[]{ R.raw.fx_coin, R.raw.fx_die, R.raw.fx_pause } );
+        game.getAudio().loadSoundFX(new int[]{R.raw.fx_coin, R.raw.fx_die, R.raw.fx_pause});
         // Load the scene tiles from resource
         this.loadFromFile(R.raw.sc_scene);
         // Add contact listeners by tag names
@@ -125,12 +125,10 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         if (gameObject == touchKeyLeft) {
             if (!touch.isTouching()) bonk.stopLR();
             else bonk.goLeft();
-        }
-        else if (gameObject == touchKeyRight) {
+        } else if (gameObject == touchKeyRight) {
             if (!touch.isTouching()) bonk.stopLR();
             else bonk.goRight();
-        }
-        else if (gameObject == touchKeyJump) {
+        } else if (gameObject == touchKeyJump) {
             bonk.jump();
         }
         return false;
@@ -141,8 +139,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         if (touch.isDown()) {                      // TOGGLE PAUSE
             if (bonk.isDead()) {
                 game.loadScene(new MenuScene(game));
-            }
-            else if (game.isPaused()) game.resume();
+            } else if (game.isPaused()) game.resume();
             else game.pause();
         }
     }
@@ -199,7 +196,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        touchKeyJump.setPosition((int)(getScaledWidth() - 64), (int)(getScaledHeight() - 64));
+        touchKeyJump.setPosition((int) (getScaledWidth() - 64), (int) (getScaledHeight() - 64));
 
         // Score on top-right corner
         canvas.scale(getScale(), getScale());

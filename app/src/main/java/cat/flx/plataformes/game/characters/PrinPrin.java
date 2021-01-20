@@ -21,7 +21,8 @@ public class PrinPrin extends GameObject {
     }
 
     // PrinPrin moves horizontally between x0 and x1
-    @Override public void physics(long deltaTime) {
+    @Override
+    public void physics(long deltaTime) {
         this.x += incX;
         if (x <= x0) {
             incX = 1;
@@ -34,7 +35,8 @@ public class PrinPrin extends GameObject {
     }
 
     // The collision rect around the coin
-    @Override public void updateCollisionRect() {
+    @Override
+    public void updateCollisionRect() {
         collisionRect.set(x, y, x + 16, y + 30);
     }
 }

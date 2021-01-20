@@ -27,7 +27,7 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
     // GAME ENGINE RUNNABLE
     private final Handler handler;
     private int updatesPerSecond = 30;  // desired physic's updates/second
-    private int updatesToRedraw  = 2;   // how many physics per redraw update
+    private int updatesToRedraw = 2;   // how many physics per redraw update
     private long lastTime;      // Holder for deltaTime calculation
     private int count = 0;      // Divider
     // DEBUG MODE
@@ -43,36 +43,74 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
     }
 
     // Game getter & setter
-    public Game getGame() { return game; }
-    public void setGame(Game game) { this.game = game; }
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     // Audio getter
-    public Audio getAudio() { return audio; }
+    public Audio getAudio() {
+        return audio;
+    }
 
     // BitmapSet related getter & setter
-    public BitmapSet getBitmapSet() { return bitmapSet; }
+    public BitmapSet getBitmapSet() {
+        return bitmapSet;
+    }
 
     // Retrieve size of screen
-    int getScreenWidth() { return this.getMeasuredWidth(); }
-    int getScreenHeight() { return this.getMeasuredHeight(); }
+    int getScreenWidth() {
+        return this.getMeasuredWidth();
+    }
+
+    int getScreenHeight() {
+        return this.getMeasuredHeight();
+    }
 
     // Timing settings
-    public int getUpdatesPerSecond() { return updatesPerSecond; }
-    public void setUpdatesPerSecond(int updatesPerSecond) { this.updatesPerSecond = updatesPerSecond; }
-    public int getUpdatesToRedraw() { return updatesToRedraw; }
-    public void setUpdatesToRedraw(int updatesToRedraw) { this.updatesToRedraw = updatesToRedraw; }
+    public int getUpdatesPerSecond() {
+        return updatesPerSecond;
+    }
+
+    public void setUpdatesPerSecond(int updatesPerSecond) {
+        this.updatesPerSecond = updatesPerSecond;
+    }
+
+    public int getUpdatesToRedraw() {
+        return updatesToRedraw;
+    }
+
+    public void setUpdatesToRedraw(int updatesToRedraw) {
+        this.updatesToRedraw = updatesToRedraw;
+    }
 
     // Acceleration getters
-    public float getAccelerationX() { return accelerationX; }
-    public float getAccelerationY() { return accelerationY; }
-    public float getAccelerationZ() { return accelerationZ; }
+    public float getAccelerationX() {
+        return accelerationX;
+    }
+
+    public float getAccelerationY() {
+        return accelerationY;
+    }
+
+    public float getAccelerationZ() {
+        return accelerationZ;
+    }
 
     // Debug mode
-    public void setDebugMode(boolean debugMode) { this.debugMode = debugMode; }
-    boolean getDebugMode() { return debugMode; }
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
+    boolean getDebugMode() {
+        return debugMode;
+    }
 
     public void finish() {
-        ((GameEngineActivity)this.getContext()).finish();
+        ((GameEngineActivity) this.getContext()).finish();
     }
 
     // This method will be called on first start
@@ -104,7 +142,8 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
     }
 
     // This method will be called periodically
-    @Override public void run() {
+    @Override
+    public void run() {
         // post new update
         int period = 1000 / updatesPerSecond;
         handler.postDelayed(this, period);
@@ -133,7 +172,8 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
     }
 
     // Drawing cycle
-    @Override public void onDraw(Canvas canvas) {
+    @Override
+    public void onDraw(Canvas canvas) {
         canvas.drawColor(Color.RED);
         if (game == null) return;
         game.draw(canvas);
@@ -141,6 +181,7 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
 
     // Touch actions will be queued here
     private final List<Touch> touches = new ArrayList<>();
+
     public Touch consumeTouch() {
         if (touches.size() == 0) return null;
         Touch touch = touches.get(0);
@@ -150,7 +191,8 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
 
     // Touch event listener: capture and pre-processing
     @SuppressLint("ClickableViewAccessibility")     // accessibility is virtually impossible
-    @Override public boolean onTouchEvent(MotionEvent motionEvent) {
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
         if (game == null) return true;
         int action = motionEvent.getActionMasked();
         boolean down = (action == MotionEvent.ACTION_DOWN) ||
@@ -167,6 +209,7 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
 
     // Key events will be queued here
     private final List<Integer> keyTouches = new ArrayList<>();
+
     public int consumeKeyTouch() {
         if (keyTouches.size() == 0) return KeyEvent.KEYCODE_UNKNOWN;
         int keycode = keyTouches.get(0);
@@ -175,17 +218,22 @@ public class GameEngine extends View implements Runnable, SensorEventListener {
     }
 
     // Key event listener: capture and pre-processing
-    @Override public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_DOWN) return true;
         keyTouches.add(event.getKeyCode());
         return true;
     }
 
     // Acceleration listener: capture & pre-processing
-    @Override public void onSensorChanged(SensorEvent sensorEvent) {
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
         this.accelerationX = sensorEvent.values[0];
         this.accelerationY = sensorEvent.values[1];
         this.accelerationZ = sensorEvent.values[2];
     }
-    @Override public void onAccuracyChanged(Sensor sensor, int i) { }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
 }

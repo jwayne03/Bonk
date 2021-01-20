@@ -11,6 +11,7 @@ import cat.flx.plataformes.engine.ui.Button;
 
 public class MenuScene extends Scene {
     Button button1, button2;
+
     // Constructor
     MenuScene(Game game) {
         super(game);
@@ -37,7 +38,9 @@ public class MenuScene extends Scene {
     }
 
     // User input processing
-    @Override public void processInput() { }
+    @Override
+    public void processInput() {
+    }
 
     @Override
     public void draw(Canvas canvas) {

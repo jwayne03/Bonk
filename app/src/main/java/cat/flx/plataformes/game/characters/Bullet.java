@@ -15,7 +15,8 @@ public class Bullet extends Enemy {
     }
 
     // The crab moves horizontally between x0 and x1
-    @Override public void physics(long deltaTime) {
+    @Override
+    public void physics(long deltaTime) {
         x += vx;
         y += vy;
         vy++;
@@ -26,7 +27,8 @@ public class Bullet extends Enemy {
     }
 
     // The collision rect around the crab will consider the pincers' position
-    @Override public void updateCollisionRect() {
+    @Override
+    public void updateCollisionRect() {
         collisionRect.set(x, y, x + 7, y + 7);
     }
 }

@@ -37,20 +37,21 @@ public abstract class GameEngineActivity extends AppCompatActivity
     }
 
     // Ignore orientation changes (related to manifest.xml settings)
-    @Override public void onConfigurationChanged(Configuration newConfig) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     // When the layout has been finished
     @SuppressWarnings("deprecation")
-    @Override public void onGlobalLayout() {
+    @Override
+    public void onGlobalLayout() {
         // Remove listener... (two methods based on API version)
         ViewTreeObserver vto = gameEngine.getViewTreeObserver();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             vto.removeOnGlobalLayoutListener(this);
-        }
-        else {
+        } else {
             vto.removeGlobalOnLayoutListener(this);
         }
         // Delegate to real implementation here
@@ -61,25 +62,33 @@ public abstract class GameEngineActivity extends AppCompatActivity
     }
 
     // Delegate methods to GameEngine
-    @Override public void onStart() {
+    @Override
+    public void onStart() {
         super.onStart();
         gameEngine.start();
     }
-    @Override public void onResume() {
+
+    @Override
+    public void onResume() {
         super.onResume();
         gameEngine.resume();
     }
-    @Override public void onPause() {
+
+    @Override
+    public void onPause() {
         super.onPause();
         gameEngine.pause();
     }
-    @Override public void onDestroy() {
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         gameEngine.stop();
     }
 
     // Needed for the keyboard input from the computer when run in emulator
-    @Override public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
         return (gameEngine == null) || gameEngine.dispatchKeyEvent(event);
     }
 

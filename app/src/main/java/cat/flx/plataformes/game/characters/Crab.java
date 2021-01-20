@@ -20,7 +20,8 @@ public class Crab extends Enemy {
     }
 
     // The crab moves horizontally between x0 and x1
-    @Override public void physics(long deltaTime) {
+    @Override
+    public void physics(long deltaTime) {
         this.x += incX;
         if (x <= x0) incX = 1;
         if (x >= x1) incX = -1;
@@ -31,7 +32,8 @@ public class Crab extends Enemy {
     }
 
     // The collision rect around the crab will consider the pincers' position
-    @Override public void updateCollisionRect() {
+    @Override
+    public void updateCollisionRect() {
         SpriteSequence spriteSequence = getCurrentSpriteSequence();
         int currentSpriteIndex = spriteSequence.getCurrentSpriteIndex();
         int top = y + 8 - ((currentSpriteIndex < 6) ? 8 : 0);

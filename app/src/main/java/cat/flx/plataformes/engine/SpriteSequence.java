@@ -36,7 +36,7 @@ public class SpriteSequence {
 
     // Adds an array of sprites to this sprite sequence
     public void addSprites(int[] sprites) {
-        for(int sprite: sprites) {
+        for (int sprite : sprites) {
             this.sprites.add(sprite);
         }
     }
@@ -53,11 +53,13 @@ public class SpriteSequence {
 
     // Randomize the current sprite inside the sprite sequence
     public void randomizeSprite() {
-        sprite = (int)(Math.random() * sprites.size());
+        sprite = (int) (Math.random() * sprites.size());
     }
 
     // Getter for the currently drawn sprite
-    public int getCurrentSpriteIndex() { return sprite; }
+    public int getCurrentSpriteIndex() {
+        return sprite;
+    }
 
     // Moves to the next sprite in this sprite sequence
     private void nextSprite() {

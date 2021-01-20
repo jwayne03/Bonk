@@ -30,7 +30,9 @@ public class BitmapSet {
     }
 
     // Retrieve a Bitmap by index
-    Bitmap getBitmap(int index) { return bitmaps.get(index); }
+    Bitmap getBitmap(int index) {
+        return bitmaps.get(index);
+    }
 
     // Gets a clone of the specified sprite sequence by index
     public SpriteSequence getSpriteSequence(int index) {
@@ -87,34 +89,34 @@ public class BitmapSet {
                     // Get the portion of the original Bitmap and store it in the array
                     Bitmap bitmap = Bitmap.createBitmap(bitmapsBMP, x, y, w, h, m, true);
                     bitmaps.put(id, bitmap);
-                    Log.d("flx","Added sprite #" + id);
-                }
-                else {                                  // This must be an "SEQUENCE"
+                    Log.d("flx", "Added sprite #" + id);
+                } else {                                  // This must be an "SEQUENCE"
                     SpriteSequence spriteSequence = new SpriteSequence(this);
                     spriteSequences.put(id, spriteSequence);
-                    for(String spec : secondSplit) {
+                    for (String spec : secondSplit) {
                         if (spec.contains("x")) {
                             String[] thirdSplit = spec.split("x");
                             if (thirdSplit.length != 2) continue;
                             int bitmapIndex = Integer.parseInt(thirdSplit[0].trim());
                             int number = Integer.parseInt(thirdSplit[1].trim());
-                            for(int i = 0; i < number; i++) {
+                            for (int i = 0; i < number; i++) {
                                 spriteSequence.addSprite(bitmapIndex);
                             }
-                        }
-                        else {
+                        } else {
                             int bitmapIndex = Integer.parseInt(spec.trim());
                             spriteSequence.addSprite(bitmapIndex);
                         }
                     }
-                    Log.d("flx","Added animation #" + id);
+                    Log.d("flx", "Added animation #" + id);
                 }
             }
             reader.close();
-        }
-        catch (Exception ignored) { }
-        finally {
-            try { reader.close(); } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        } finally {
+            try {
+                reader.close();
+            } catch (Exception ignored) {
+            }
         }
 
         // Release the resources of the original Bitmap. It's needed no more in the app

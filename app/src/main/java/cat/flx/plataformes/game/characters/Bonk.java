@@ -24,20 +24,20 @@ public class Bonk extends GameObject {
     private static final int COL_HEIGHT = 32;
 
     private final static int STATE_STANDING_FRONT = 1000;
-    private final static int STATE_WALKING_LEFT =   1001;
-    private final static int STATE_WALKING_RIGHT =  1002;
-    private final static int STATE_DEAD =           1003;
-    private final static int STATE_JUMPING_LEFT =   1004;
-    private final static int STATE_JUMPING_RIGHT =  1005;
-    private final static int STATE_FALLING_LEFT =   1006;
-    private final static int STATE_FALLING_RIGHT =  1007;
-    private final static int STATE_JUMPING_FRONT =  1008;
+    private final static int STATE_WALKING_LEFT = 1001;
+    private final static int STATE_WALKING_RIGHT = 1002;
+    private final static int STATE_DEAD = 1003;
+    private final static int STATE_JUMPING_LEFT = 1004;
+    private final static int STATE_JUMPING_RIGHT = 1005;
+    private final static int STATE_FALLING_LEFT = 1006;
+    private final static int STATE_FALLING_RIGHT = 1007;
+    private final static int STATE_JUMPING_FRONT = 1008;
 
     // State change matrix depending on movement direction
     private static final int[] NEW_STATES = {
-        STATE_JUMPING_LEFT, STATE_JUMPING_FRONT, STATE_JUMPING_RIGHT,
-        STATE_WALKING_LEFT, STATE_STANDING_FRONT, STATE_WALKING_RIGHT,
-        STATE_FALLING_LEFT, STATE_JUMPING_FRONT, STATE_FALLING_RIGHT
+            STATE_JUMPING_LEFT, STATE_JUMPING_FRONT, STATE_JUMPING_RIGHT,
+            STATE_WALKING_LEFT, STATE_STANDING_FRONT, STATE_WALKING_RIGHT,
+            STATE_FALLING_LEFT, STATE_JUMPING_FRONT, STATE_FALLING_RIGHT
     };
 
     // Constructor
@@ -51,9 +51,17 @@ public class Bonk extends GameObject {
     }
 
     // Score related
-    public int getScore() { return score; }
-    public void setScore(int score) { this.score = score; }
-    public void addScore(int score) { this.score += score; }
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
 
     // Reset Bonk to a known position
     public void reset(int x, int y) {
@@ -64,7 +72,9 @@ public class Bonk extends GameObject {
     }
 
     // Dying is exactly state 3
-    public boolean isDead() { return (state == STATE_DEAD); }
+    public boolean isDead() {
+        return (state == STATE_DEAD);
+    }
 
     // And kill him is exactly change its state to 3
     public void die() {
@@ -73,16 +83,43 @@ public class Bonk extends GameObject {
 
     // User input helper methods
     private boolean left, right, jump;
-    public void goLeft() { left = true; right = false; }
-    public void goRight() { left = false; right = true; }
-    public void stopLR() { left = right = false; }
-    public void jump() { jump = true; }
-    private void clearJump() { jump = false; }
-    private boolean isLeft() { return left; }
-    private boolean isRight() { return right; }
-    private boolean isJump() { return jump; }
 
-    @Override public void physics(long deltaTime) {
+    public void goLeft() {
+        left = true;
+        right = false;
+    }
+
+    public void goRight() {
+        left = false;
+        right = true;
+    }
+
+    public void stopLR() {
+        left = right = false;
+    }
+
+    public void jump() {
+        jump = true;
+    }
+
+    private void clearJump() {
+        jump = false;
+    }
+
+    private boolean isLeft() {
+        return left;
+    }
+
+    private boolean isRight() {
+        return right;
+    }
+
+    private boolean isJump() {
+        return jump;
+    }
+
+    @Override
+    public void physics(long deltaTime) {
         // If died, no physics
         if (state == STATE_DEAD) return;
 
@@ -130,7 +167,8 @@ public class Bonk extends GameObject {
         }
         // 3) detect ground
         // physics (try fall and detect ground)
-        vy++; if (vy > MAX_VELOCITY) vy = MAX_VELOCITY;
+        vy++;
+        if (vy > MAX_VELOCITY) vy = MAX_VELOCITY;
         newY = y + vy;
         if (vy >= 0) {
             int c1 = (newX + PAD_LEFT) / 16;
@@ -175,12 +213,14 @@ public class Bonk extends GameObject {
     }
 
     // The collision rect is only valid while alive
-    @Override public Rect getCollisionRect() {
+    @Override
+    public Rect getCollisionRect() {
         return (state == STATE_DEAD) ? null : collisionRect;
     }
 
     // Updates the collision rect around the character
-    @Override public void updateCollisionRect() {
+    @Override
+    public void updateCollisionRect() {
         collisionRect.set(
                 x + PAD_LEFT,
                 y + PAD_TOP,

@@ -2,11 +2,11 @@ package cat.flx.plataformes.engine;
 
 /**
  * A touch is an action done by the user on the screen.
- *
+ * <p>
  * It stores the X,Y position as well as the action done (ACTION_UP, ACTION_DOWN, ...)
  * It has a "down" boolean to indicate the touching is a "begin touch". Useful for taps.
  * It has also a "touching" boolean to indicate a touching that is being held. useful for pads.
-  */
+ */
 public class Touch {
     // Attributes
     private final int x, y, action;
@@ -22,9 +22,23 @@ public class Touch {
     }
 
     // Getters
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public int getAction() { return action; }
-    public boolean isDown() { return down; }
-    public boolean isTouching() { return touching; }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getAction() {
+        return action;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public boolean isTouching() {
+        return touching;
+    }
 }

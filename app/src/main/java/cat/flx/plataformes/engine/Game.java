@@ -20,24 +20,61 @@ public class Game {
     }
 
     // Useful getters and helpers
-    public GameEngine getGameEngine() { return gameEngine; }
-    public Audio getAudio() { return gameEngine.getAudio(); }
-    public Scene getScene() { return scene; }
-    public BitmapSet getBitmapSet() { return gameEngine.getBitmapSet(); }
-    public Bitmap getBitmap(int index) { return getBitmapSet().getBitmap(index); }
-    public SpriteSequence getSpriteSequence(int index) { return getBitmapSet().getSpriteSequence(index); }
-    public int getScreenWidth() { return gameEngine.getScreenWidth(); }
-    public int getScreenHeight() { return gameEngine.getScreenHeight(); }
-    public boolean isPaused() { return paused; }
+    public GameEngine getGameEngine() {
+        return gameEngine;
+    }
+
+    public Audio getAudio() {
+        return gameEngine.getAudio();
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public BitmapSet getBitmapSet() {
+        return gameEngine.getBitmapSet();
+    }
+
+    public Bitmap getBitmap(int index) {
+        return getBitmapSet().getBitmap(index);
+    }
+
+    public SpriteSequence getSpriteSequence(int index) {
+        return getBitmapSet().getSpriteSequence(index);
+    }
+
+    public int getScreenWidth() {
+        return gameEngine.getScreenWidth();
+    }
+
+    public int getScreenHeight() {
+        return gameEngine.getScreenHeight();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
 
     // Methods to be called by the game engine on start, stop, resume and pause
-    public void start() { }
-    public void stop() { }
-    public void resume() { paused = false; }
-    public void pause() { paused = true; }
+    public void start() {
+    }
+
+    public void stop() {
+    }
+
+    public void resume() {
+        paused = false;
+    }
+
+    public void pause() {
+        paused = true;
+    }
 
     // Sets the current scene
-    public void loadScene(Scene scene) { this.scene = scene; }
+    public void loadScene(Scene scene) {
+        this.scene = scene;
+    }
 
     // Process input from user
     void processInput() {
@@ -48,7 +85,7 @@ public class Game {
             // Gets the list of GameObject under the touch point
             List<GameObject> objects = scene.touched(touch.getX(), touch.getY());
             boolean bubbleUp = true;
-            for(GameObject gameObject : objects) {
+            for (GameObject gameObject : objects) {
                 // Make the action and control the propagation (return false to avoid bubble up)
                 bubbleUp = gameObject.touched(touch);
                 if (!bubbleUp) break;

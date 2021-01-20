@@ -40,19 +40,54 @@ abstract public class TiledScene extends Scene {
     }
 
     // Camera getter & setter
-    public GameObject getCamera() { return camera; }
-    protected void setCamera(GameObject camera) { this.camera = camera; }
+    public GameObject getCamera() {
+        return camera;
+    }
+
+    protected void setCamera(GameObject camera) {
+        this.camera = camera;
+    }
 
     // Useful getters
-    @Override protected int getScreenWidth() { return game.getScreenWidth(); }
-    @Override protected int getScreenHeight() { return game.getScreenHeight(); }
-    @Override public float getScaledWidth() { return scaledWidth; }
-    @Override public float getScaledHeight() { return scaledHeight; }
-    public int getSceneWidth() { return sceneWidth; }
-    public int getSceneHeight() { return sceneHeight; }
-    public int getTileSize() { return tileSize; }
-    protected float getScale() { return scale; }
-    public int getWaterLevel() { return WATER_LEVEL; }
+    @Override
+    protected int getScreenWidth() {
+        return game.getScreenWidth();
+    }
+
+    @Override
+    protected int getScreenHeight() {
+        return game.getScreenHeight();
+    }
+
+    @Override
+    public float getScaledWidth() {
+        return scaledWidth;
+    }
+
+    @Override
+    public float getScaledHeight() {
+        return scaledHeight;
+    }
+
+    public int getSceneWidth() {
+        return sceneWidth;
+    }
+
+    public int getSceneHeight() {
+        return sceneHeight;
+    }
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
+    protected float getScale() {
+        return scale;
+    }
+
+    public int getWaterLevel() {
+        return WATER_LEVEL;
+    }
 
     // Change the desired view scale based on the scaled height
     protected void setScaledHeight(int scaledHeight) {
@@ -61,8 +96,15 @@ abstract public class TiledScene extends Scene {
     }
 
     // Computed full scene width and height in scaled pixels
-    @Override public int getSceneFullWidth() { return sceneWidth * tileSize; }
-    @Override public int getSceneFullHeight() { return sceneHeight * tileSize; }
+    @Override
+    public int getSceneFullWidth() {
+        return sceneWidth * tileSize;
+    }
+
+    @Override
+    public int getSceneFullHeight() {
+        return sceneHeight * tileSize;
+    }
 
     // Returns true if the tile in (r,c) is a ground tile
     public boolean isGround(int r, int c) {
@@ -103,8 +145,7 @@ abstract public class TiledScene extends Scene {
                 // If it's a Scene line, direct assignment to lines
                 if (cmd.equals("SCENE")) {
                     lines.add(args);
-                }
-                else {
+                } else {
                     // Delegate to the parser (possibly overridden)
                     GameObject gameObject = this.parseLine(cmd, args);
                     if (gameObject != null) this.gameObjects.add(gameObject);
@@ -115,9 +156,8 @@ abstract public class TiledScene extends Scene {
             scene = lines.toArray(new String[0]);
             sceneHeight = scene.length;
             sceneWidth = scene[0].length();
-        }
-        catch (IOException e) {
-            String message = "Error loading scene:" +  e.getMessage();
+        } catch (IOException e) {
+            String message = "Error loading scene:" + e.getMessage();
             Toast.makeText(gameEngine.getContext(), message, Toast.LENGTH_LONG).show();
         }
     }
@@ -195,6 +235,7 @@ abstract public class TiledScene extends Scene {
             scaledWidth = (int) (screenWidth / scale);
         }
     }
+
     // Draw the tiled scene before drawing the game objects
     @Override
     public void draw(Canvas canvas) {
@@ -215,7 +256,7 @@ abstract public class TiledScene extends Scene {
         int t = Math.max(0, offsetY / 16);
         int b = Math.min(scene.length, offsetY / 16 + screenHeight / 16 + 2);
         // Iterate over the visible rows
-        for(int y = t; y < b; y++) {
+        for (int y = t; y < b; y++) {
             // Compute the background index (sky / water)
             int bgIdx = SKY;
             if (y == WATER_LEVEL) bgIdx = WATER_SKY;
@@ -223,7 +264,7 @@ abstract public class TiledScene extends Scene {
             Bitmap bgBitmap = game.getBitmap(bgIdx);
             if (bgBitmap == null) continue;
             // Draw all the visible tiles in the current row
-            for(int x = l; x < r; x++) {
+            for (int x = l; x < r; x++) {
                 // Draw the background tile
                 canvas.drawBitmap(bgBitmap, x * 16, y * 16, null);
                 // Compute the bitmap index for the current tile

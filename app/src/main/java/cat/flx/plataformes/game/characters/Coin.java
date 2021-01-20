@@ -17,10 +17,13 @@ public class Coin extends GameObject {
     }
 
     // A coin doesn't move
-    @Override public void physics(long deltaTime) { }
+    @Override
+    public void physics(long deltaTime) {
+    }
 
     // The collision rect around the coin
-    @Override public void updateCollisionRect() {
+    @Override
+    public void updateCollisionRect() {
         collisionRect.set(x + 2, y + 2, x + 14, y + 14);
     }
 }

@@ -40,33 +40,76 @@ public class GameObject {
     }
 
     // Useful getters & setters
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public void setPosition(int x, int y) { this.x = x; this.y = y; }
-    public int getState() { return state; }
-    public Rect getCollisionRect() { return collisionRect; }
-    public boolean isUseTranslatedPixels()  { return useTranslatedPixels; }
-    public void setUseTranslatedPixels(boolean useTranslatedPixels) { this.useTranslatedPixels = useTranslatedPixels; }
-    public boolean isUseScaledPixels() { return useScaledPixels; }
-    public void setUseScaledPixels(boolean useScaledPixels) { this.useScaledPixels = useScaledPixels; }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public Rect getCollisionRect() {
+        return collisionRect;
+    }
+
+    public boolean isUseTranslatedPixels() {
+        return useTranslatedPixels;
+    }
+
+    public void setUseTranslatedPixels(boolean useTranslatedPixels) {
+        this.useTranslatedPixels = useTranslatedPixels;
+    }
+
+    public boolean isUseScaledPixels() {
+        return useScaledPixels;
+    }
+
+    public void setUseScaledPixels(boolean useScaledPixels) {
+        this.useScaledPixels = useScaledPixels;
+    }
 
     // Marked for deletion
-    boolean isMarkedForDeletion() { return markedForDeletion; }
-    public void removeFromScene() { this.markedForDeletion = true; }
+    boolean isMarkedForDeletion() {
+        return markedForDeletion;
+    }
+
+    public void removeFromScene() {
+        this.markedForDeletion = true;
+    }
 
     // Tags
-    public boolean hasTag(String tag) { return tags.contains(tag); }
-    protected void addTag(String tag) { tags.add(tag); }
-    public void removeTag(String tag) { tags.remove(tag); }
+    public boolean hasTag(String tag) {
+        return tags.contains(tag);
+    }
+
+    protected void addTag(String tag) {
+        tags.add(tag);
+    }
+
+    public void removeTag(String tag) {
+        tags.remove(tag);
+    }
 
     // The scene needs this getter
-    List<String> getTags() { return tags; }
+    List<String> getTags() {
+        return tags;
+    }
 
     // Sprite sequence definition
     protected void addSpriteSequence(int state, int spriteSequenceIndex) {
         SpriteSequence sequence = game.getSpriteSequence(spriteSequenceIndex);
         this.animations.put(state, sequence);
     }
+
     // Get current sprite sequence
     protected SpriteSequence getCurrentSpriteSequence() {
         return this.animations.get(state, null);
@@ -82,10 +125,12 @@ public class GameObject {
     }
 
     // Physics implementation
-    public void physics(long deltaTime) { }
+    public void physics(long deltaTime) {
+    }
 
     // Update collision rectangle on need
-    public void updateCollisionRect() { }
+    public void updateCollisionRect() {
+    }
 
     public boolean intersect(int x, int y) {
         if (this.getCollisionRect() == null) return false;
@@ -102,12 +147,13 @@ public class GameObject {
             // If debug mode, paint the collision rectangle
             if (!game.getGameEngine().getDebugMode()) return;
             if (collisionRect != null) canvas.drawRect(collisionRect, collisionRectPaint);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) { }
     }
 
     private OnTouchEventListener listener;
     private boolean onlyOnDown = true;
+
     public void setOnTouchEventListener(OnTouchEventListener listener, boolean onlyOnDown) {
         this.listener = listener;
         this.onlyOnDown = onlyOnDown;

@@ -19,8 +19,7 @@ public class Audio {
         // Prepping the sound pool
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             soundPool = new SoundPool.Builder().setMaxStreams(10).build();
-        }
-        else {
+        } else {
             soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 1);
         }
     }
@@ -36,7 +35,7 @@ public class Audio {
     // Loads the fx resources from an array of resources
     public void loadSoundFX(int[] resources) {      // { R.raw.coin, R.raw.die, R.raw.pause }
         fx = new int[resources.length];
-        for(int i = 0; i < resources.length; i++) {
+        for (int i = 0; i < resources.length; i++) {
             fx[i] = soundPool.load(context, resources[i], 1);
         }
     }
