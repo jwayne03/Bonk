@@ -12,7 +12,7 @@ public class GameActivity extends GameEngineActivity {
         gameEngine.setUpdatesPerSecond(15);
         gameEngine.setUpdatesToRedraw(2);
         // Sets the debug mode
-        gameEngine.setDebugMode(true);
+        gameEngine.setDebugMode(false);
         // Attach a game instance
         new BonkGame(gameEngine);
     }

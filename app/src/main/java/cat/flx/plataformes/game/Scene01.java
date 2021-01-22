@@ -21,6 +21,7 @@ import cat.flx.plataformes.engine.Touch;
 import cat.flx.plataformes.game.characters.Bonk;
 import cat.flx.plataformes.game.characters.Coin;
 import cat.flx.plataformes.game.characters.Crab;
+import cat.flx.plataformes.game.characters.Lava;
 import cat.flx.plataformes.game.characters.PoisonousPlant;
 import cat.flx.plataformes.game.characters.PrinPrin;
 import cat.flx.plataformes.game.ui.TouchKey;
@@ -65,7 +66,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         // Pre-loading of sound effects
         game.getAudio().loadSoundFX(new int[]{R.raw.fx_coin, R.raw.fx_die, R.raw.fx_pause});
         // Load the scene tiles from resource
-        this.loadFromFile(R.raw.sc_scene);
+        this.loadFromFile(R.raw.finalscene);
         // Add contact listeners by tag names
         this.addContactListener("bonk", "enemy", this);
         this.addContactListener("bonk", "coin", this);
@@ -115,6 +116,14 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
             int prinX1 = Integer.parseInt(parts2[1].trim()) * 16;
             int prinY = Integer.parseInt(parts2[2].trim()) * 16 + 2;
             return new PrinPrin(game, prinX0, prinX1, prinY);
+        }
+
+        if (cmd.equals("LAVA")) {
+            String[] parts2 = args.split(",");
+            if (parts2.length != 2) return null;
+            int lavaX = Integer.parseInt(parts2[0].trim()) * 16;
+            int lavaY = Integer.parseInt(parts2[1].trim()) * 16;
+            return new Lava(game, lavaX, lavaY);
         }
         // Test the common basic parser
         return super.parseLine(cmd, args);
@@ -181,12 +190,12 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         // Contact between Bonk and an enemy
         else if (tag2.equals("enemy")) {
             this.getGame().getAudio().playSoundFX(1);
-            object2.removeFromScene();
+//            object2.removeFromScene();
             bonk.die();
         }
         // Contact between Bonk and PrinPrin
         else if (tag2.equals("prinprin")) {
-            Scene scene02 = new Scene02(this.getGame());
+            Scene scene02 = new SceneFinal(this.getGame());
             this.getGame().loadScene(scene02);
             bonk.addScore(1000);
         }

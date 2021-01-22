@@ -15,18 +15,18 @@ import cat.flx.plataformes.R;
 import cat.flx.plataformes.engine.Game;
 import cat.flx.plataformes.engine.GameObject;
 import cat.flx.plataformes.engine.OnContactListener;
-import cat.flx.plataformes.engine.Scene;
 import cat.flx.plataformes.engine.TiledScene;
 import cat.flx.plataformes.engine.Touch;
 import cat.flx.plataformes.game.characters.Bonk;
 import cat.flx.plataformes.game.characters.Coin;
 import cat.flx.plataformes.game.characters.Crab;
+import cat.flx.plataformes.game.characters.Lava;
 import cat.flx.plataformes.game.characters.PoisonousPlant;
 import cat.flx.plataformes.game.characters.PrinPrin;
 import cat.flx.plataformes.game.ui.TouchKey;
 
 // A fully playable tiled scene
-class Scene02 extends TiledScene implements OnContactListener, GameObject.OnTouchEventListener {
+class SceneFinal extends TiledScene implements OnContactListener, GameObject.OnTouchEventListener {
 
     // We keep a specific reference to the player
     private final Bonk bonk;
@@ -36,7 +36,7 @@ class Scene02 extends TiledScene implements OnContactListener, GameObject.OnTouc
     TouchKey touchKeyLeft, touchKeyRight, touchKeyJump;
 
     // Constructor
-    Scene02(Game game) {
+    SceneFinal(Game game) {
         super(game);
 
         // Create the main character (player)
@@ -65,7 +65,7 @@ class Scene02 extends TiledScene implements OnContactListener, GameObject.OnTouc
         // Pre-loading of sound effects
         game.getAudio().loadSoundFX(new int[]{R.raw.fx_coin, R.raw.fx_die, R.raw.fx_pause});
         // Load the scene tiles from resource
-        this.loadFromFile(R.raw.sc_mini);
+        this.loadFromFile(R.raw.finalscene);
         // Add contact listeners by tag names
         this.addContactListener("bonk", "enemy", this);
         this.addContactListener("bonk", "coin", this);
@@ -115,6 +115,13 @@ class Scene02 extends TiledScene implements OnContactListener, GameObject.OnTouc
             int prinX1 = Integer.parseInt(parts2[1].trim()) * 16;
             int prinY = Integer.parseInt(parts2[2].trim()) * 16 + 2;
             return new PrinPrin(game, prinX0, prinX1, prinY);
+        }
+        if (cmd.equals("LAVA")) {
+            String[] parts2 = args.split(",");
+            if (parts2.length != 2) return null;
+            int lavaX = Integer.parseInt(parts2[0].trim()) * 16;
+            int lavaY = Integer.parseInt(parts2[0].trim()) * 16;
+            return new Lava(game, lavaX, lavaY);
         }
         // Test the common basic parser
         return super.parseLine(cmd, args);
@@ -186,8 +193,7 @@ class Scene02 extends TiledScene implements OnContactListener, GameObject.OnTouc
         }
         // Contact between Bonk and PrinPrin
         else if (tag2.equals("prinprin")) {
-            Scene finalscene = new SceneFinal(this.getGame());
-            this.getGame().loadScene(finalscene);
+            // TODO Change Scene
             bonk.addScore(1000);
         }
     }

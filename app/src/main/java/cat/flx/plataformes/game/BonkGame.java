@@ -20,6 +20,7 @@ public class BonkGame extends Game {
         bitmapSet.addSprites(R.raw.bm_crab, R.raw.bm_crab_info);
         bitmapSet.addSprites(R.raw.bm_prinprin, R.raw.bm_prinprin_info);
         bitmapSet.addSprites(R.raw.bm_bullet, R.raw.bm_bullet_info);
+        bitmapSet.addSprites(R.raw.bm_tileslava, R.raw.bm_lava_info);
     }
 
     // Method to be called when the game is first started
