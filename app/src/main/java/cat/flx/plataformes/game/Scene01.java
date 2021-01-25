@@ -22,6 +22,7 @@ import cat.flx.plataformes.game.characters.Bonk;
 import cat.flx.plataformes.game.characters.Coin;
 import cat.flx.plataformes.game.characters.Crab;
 import cat.flx.plataformes.game.characters.Lava;
+import cat.flx.plataformes.game.characters.Mushroom;
 import cat.flx.plataformes.game.characters.PoisonousPlant;
 import cat.flx.plataformes.game.characters.PrinPrin;
 import cat.flx.plataformes.game.ui.TouchKey;
@@ -71,6 +72,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         this.addContactListener("bonk", "enemy", this);
         this.addContactListener("bonk", "coin", this);
         this.addContactListener("bonk", "prinprin", this);
+        this.addContactListener("bonk", "mushroom", this);
         // Prepare the painters for drawing
         paintScore = new Paint();
         Typeface typeface = ResourcesCompat.getFont(this.getContext(), R.font.dseg);
@@ -114,8 +116,17 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
             if (parts2.length != 3) return null;
             int prinX0 = Integer.parseInt(parts2[0].trim()) * 16;
             int prinX1 = Integer.parseInt(parts2[1].trim()) * 16;
-            int prinY = Integer.parseInt(parts2[2].trim()) * 16 + 2;
+            int prinY = Integer.parseInt(parts2[2].trim()) * 16;
             return new PrinPrin(game, prinX0, prinX1, prinY);
+        }
+
+        if (cmd.equals("MUSHROOM")) {
+            String[] parts2 = args.split(",");
+            if (parts2.length != 3) return null;
+            int mushX0 = Integer.parseInt(parts2[0].trim()) * 16;
+            int mushX1 = Integer.parseInt(parts2[1].trim()) * 16;
+            int mushY = Integer.parseInt(parts2[2].trim()) * 16 + 7;
+            return new Mushroom(game, mushX0, mushX1, mushY);
         }
 
         if (cmd.equals("LAVA")) {
@@ -198,6 +209,11 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
             Scene scene02 = new SceneFinal(this.getGame());
             this.getGame().loadScene(scene02);
             bonk.addScore(1000);
+        }
+        // Contact between Bonk and PrinPrin
+        else if (tag2.equals("mushroom")) {
+            bonk.setVx(bonk.getVx() + 1);
+            object2.removeFromScene();
         }
     }
 

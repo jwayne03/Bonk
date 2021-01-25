@@ -180,21 +180,23 @@ class SceneFinal extends TiledScene implements OnContactListener, GameObject.OnT
     public void onContact(String tag1, GameObject object1, String tag2, GameObject object2) {
         Log.d("flx", "Contact between a " + tag1 + " and " + tag2);
         // Contact between Bonk and a coin
-        if (tag2.equals("coin")) {
-            this.getGame().getAudio().playSoundFX(0);
-            object2.removeFromScene();
-            bonk.addScore(10);
-        }
-        // Contact between Bonk and an enemy
-        else if (tag2.equals("enemy")) {
-            this.getGame().getAudio().playSoundFX(1);
-            object2.removeFromScene();
-            bonk.die();
-        }
-        // Contact between Bonk and PrinPrin
-        else if (tag2.equals("prinprin")) {
-            // TODO Change Scene
-            bonk.addScore(1000);
+        switch (tag2) {
+            case "coin":
+                this.getGame().getAudio().playSoundFX(0);
+                object2.removeFromScene();
+                bonk.addScore(10);
+                break;
+            // Contact between Bonk and an enemy
+            case "enemy":
+                this.getGame().getAudio().playSoundFX(1);
+                object2.removeFromScene();
+                bonk.die();
+                break;
+            // Contact between Bonk and PrinPrin
+            case "prinprin":
+                // TODO Change Scene
+                bonk.addScore(1000);
+                break;
         }
     }
 

@@ -50,6 +50,14 @@ public class Bonk extends GameObject {
         }
     }
 
+    public int getVx()  {
+        return vx;
+    }
+
+    public void setVx(int vx) {
+        this.vx = vx;
+    }
+
     // Score related
     public int getScore() {
         return score;
