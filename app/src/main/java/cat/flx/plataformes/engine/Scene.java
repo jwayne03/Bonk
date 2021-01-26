@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 abstract public class Scene {
     // Attributes
@@ -51,70 +50,37 @@ abstract public class Scene {
         Log.d("flx", "screenWidth = " + getScreenWidth() + " screenHeight = " + getScreenHeight());
         scale = Math.max(getScreenWidth() / width, getScreenHeight() / height);
         Log.d("flx", "scale = " + scale);
-        top = (getScreenHeight() - height * scale) / 2;
-        left = (getScreenWidth() - width * scale) / 2;
+        top = (getScreenHeight() - height * scale) / 2 / scale;
+        left = (getScreenWidth() - width * scale) / 2 / scale;
         Log.d("flx", "top = " + top + " left = " + left);
     }
-
     public void setScaleForFit(float width, float height) {
         Log.d("flx", "width = " + width + " height = " + height);
         Log.d("flx", "screenWidth = " + getScreenWidth() + " screenHeight = " + getScreenHeight());
         scale = Math.min(getScreenWidth() / width, getScreenHeight() / height);
         Log.d("flx", "scale = " + scale);
-        top = (getScreenHeight() - height * scale) / 2;
-        left = (getScreenWidth() - width * scale) / 2;
+        top = (getScreenHeight() - height * scale) / 2 / scale;
+        left = (getScreenWidth() - width * scale) / 2 / scale;
         Log.d("flx", "top = " + top + " left = " + left);
     }
 
     // Useful setters & getters
-    public Game getGame() {
-        return game;
-    }
+    public Game getGame() { return game; }
+    public void setGame(Game game) { this.game = game; }
+    public Audio getAudio() { return game.getAudio(); }
+    public GameEngine getGameEngine() { return game.getGameEngine(); }
+    public BitmapSet getBitmapSet() { return getGameEngine().getBitmapSet(); }
+    public Context getContext() { return game.getGameEngine().getContext(); }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+    protected int getScreenWidth() { return game.getScreenWidth(); }
+    protected int getScreenHeight() { return game.getScreenHeight(); }
 
-    public Audio getAudio() {
-        return game.getAudio();
-    }
-
-    public GameEngine getGameEngine() {
-        return game.getGameEngine();
-    }
-
-    public BitmapSet getBitmapSet() {
-        return getGameEngine().getBitmapSet();
-    }
-
-    public Context getContext() {
-        return game.getGameEngine().getContext();
-    }
-
-    protected int getScreenWidth() {
-        return game.getScreenWidth();
-    }
-
-    protected int getScreenHeight() {
-        return game.getScreenHeight();
-    }
-
-    public float getScaledWidth() {
-        return game.getScreenWidth() / scale;
-    }
-
-    public float getScaledHeight() {
-        return game.getScreenHeight() / scale;
-    }
+    public float getScaledWidth() { return game.getScreenWidth() / scale; }
+    public float getScaledHeight() { return game.getScreenHeight() / scale; }
 
     // For a non-tiled scene, the full size of the scene is the size of the screen
-    public int getSceneFullWidth() {
-        return (int) getScaledWidth();
-    }
-
-    public int getSceneFullHeight() {
-        return (int) getScaledHeight();
-    }
+    public int getSceneFullWidth() { return (int)getScaledWidth(); }
+    public int getSceneFullHeight() { return (int)getScaledHeight(); }
 
     // Clears the contact listeners
     protected void clearContactListeners() {
@@ -137,7 +103,7 @@ abstract public class Scene {
     // Physics cycle: physics, collision rectangles and collision detection
     public void physics(long deltaTime) {
         // Update physics & collision rectangles of all game objects
-        for (GameObject gameObject : gameObjects) {
+        for(GameObject gameObject : gameObjects) {
             gameObject.physics(deltaTime);
             gameObject.updateCollisionRect();
         }
@@ -145,7 +111,7 @@ abstract public class Scene {
         // Iterate over all game objects
         for (GameObject gameObject1 : gameObjects) {
             // And their tags
-            for (String tag1 : gameObject1.getTags()) {
+            for(String tag1 : gameObject1.getTags()) {
                 Rect rect1 = gameObject1.getCollisionRect();
                 if (rect1 == null) continue;
                 // To retrieve the listeners between him and other game objects
@@ -154,7 +120,7 @@ abstract public class Scene {
                 // So we search for game objects
                 for (GameObject gameObject2 : gameObjects) {
                     // And their tags
-                    for (String tag2 : gameObject2.getTags()) {
+                    for(String tag2 : gameObject2.getTags()) {
                         // Searching for a matching pair tag1-tag2
                         OnContactListener listener = tag1Listeners.get(tag2);
                         if (listener == null) continue;
@@ -215,10 +181,8 @@ abstract public class Scene {
     // Gives all the GameObjects under the specified x and y (real pixels)
     protected List<GameObject> touched(int x, int y) {
         List<GameObject> touched = new ArrayList<>();
-        for (GameObject go : gameObjects) {
-            float scaledX = (x - left) / scale;
-            float scaledY = (y - top) / scale;
-            if (go.intersect((int) scaledX, (int) scaledY)) {
+        for(GameObject go : gameObjects) {
+            if (go.intersect(x, y, scale, left, top)) {
                 touched.add(go);
             }
         }
@@ -226,8 +190,7 @@ abstract public class Scene {
     }
 
     // Default do-nothing when touching the screen (bubbled up)
-    public void onTouch(Touch touch) {
-    }
+    public void onTouch(Touch touch) { }
 
     // User Input cycle: the user input will be analyzed here
     // This method must be overridden in real scene implementation

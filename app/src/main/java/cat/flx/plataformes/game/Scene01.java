@@ -23,6 +23,7 @@ import cat.flx.plataformes.game.characters.Coin;
 import cat.flx.plataformes.game.characters.Crab;
 import cat.flx.plataformes.game.characters.Lava;
 import cat.flx.plataformes.game.characters.Mushroom;
+import cat.flx.plataformes.game.characters.MushroomLife;
 import cat.flx.plataformes.game.characters.PoisonousPlant;
 import cat.flx.plataformes.game.characters.PrinPrin;
 import cat.flx.plataformes.game.ui.TouchKey;
@@ -73,6 +74,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         this.addContactListener("bonk", "coin", this);
         this.addContactListener("bonk", "prinprin", this);
         this.addContactListener("bonk", "mushroom", this);
+        this.addContactListener("bonk", "mushroomlife", this);
         // Prepare the painters for drawing
         paintScore = new Paint();
         Typeface typeface = ResourcesCompat.getFont(this.getContext(), R.font.dseg);
@@ -129,6 +131,15 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
             return new Mushroom(game, mushX0, mushX1, mushY);
         }
 
+        if (cmd.equals("MUSHROOMLIFE")) {
+            String[] parts2 = args.split(",");
+            if (parts2.length != 3) return null;
+            int mushX0 = Integer.parseInt(parts2[0].trim()) * 16;
+            int mushX1 = Integer.parseInt(parts2[1].trim()) * 16;
+            int mushY = Integer.parseInt(parts2[2].trim()) * 16 + 7;
+            return new MushroomLife(game, mushX0, mushX1, mushY);
+        }
+
         if (cmd.equals("LAVA")) {
             String[] parts2 = args.split(",");
             if (parts2.length != 2) return null;
@@ -158,7 +169,11 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
     public void onTouch(Touch touch) {
         if (touch.isDown()) {                      // TOGGLE PAUSE
             if (bonk.isDead()) {
-                game.loadScene(new MenuScene(game));
+                if (bonk.getBonklife() > 0) {
+                    bonk.reset(0, 0);
+                } else {
+                    game.loadScene(new MenuScene(game));
+                }
             } else if (game.isPaused()) game.resume();
             else game.pause();
         }
@@ -201,7 +216,6 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         // Contact between Bonk and an enemy
         else if (tag2.equals("enemy")) {
             this.getGame().getAudio().playSoundFX(1);
-//            object2.removeFromScene();
             bonk.die();
         }
         // Contact between Bonk and PrinPrin
@@ -210,9 +224,14 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
             this.getGame().loadScene(scene02);
             bonk.addScore(1000);
         }
-        // Contact between Bonk and PrinPrin
+        // Contact between Bonk and mushroom -> speed boost
         else if (tag2.equals("mushroom")) {
             bonk.setVx(bonk.getVx() + 1);
+            object2.removeFromScene();
+        }
+        // Contact between Bonk mushroom -> life boost
+        else if (tag2.equals("mushroomlife")) {
+            bonk.setVx(bonk.getVx() * 2);
             object2.removeFromScene();
         }
     }
@@ -229,7 +248,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         canvas.drawText(score, getScaledWidth() - 72, 14, paintScore);
 
         canvas.scale(0.5f, 0.5f);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < bonk.getBonklife(); i++) {
             canvas.drawBitmap(game.getBitmap(1013), i * 28, 0, null);
         }
     }

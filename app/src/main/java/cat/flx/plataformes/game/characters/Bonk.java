@@ -14,6 +14,7 @@ public class Bonk extends GameObject {
     private int vy;
     private boolean isJumping;
     private int score;
+    private int bonklife;
 
     // Useful constants
     private static final int MAX_VELOCITY = 4;
@@ -22,6 +23,7 @@ public class Bonk extends GameObject {
     private static final int PAD_TOP = 0;
     private static final int COL_WIDTH = 20;
     private static final int COL_HEIGHT = 32;
+
 
     private final static int STATE_STANDING_FRONT = 1000;
     private final static int STATE_WALKING_LEFT = 1001;
@@ -48,9 +50,18 @@ public class Bonk extends GameObject {
         for (int i = 1000; i <= 1012; i++) {
             this.addSpriteSequence(i, i); // The first 0-10 states are indexed animations 0-10
         }
+        this.bonklife = 3;
     }
 
-    public int getVx()  {
+    public int getBonklife() {
+        return bonklife;
+    }
+
+    public void setBonklife(int bonklife) {
+        this.bonklife = bonklife;
+    }
+
+    public int getVx() {
         return vx;
     }
 
@@ -86,6 +97,7 @@ public class Bonk extends GameObject {
 
     // And kill him is exactly change its state to 3
     public void die() {
+        this.bonklife--;
         changeState(STATE_DEAD);
     }
 

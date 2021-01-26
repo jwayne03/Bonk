@@ -26,6 +26,8 @@ public class Button extends GameObject {
         paintText.setColor(Color.BLACK);
         paintText.setTextSize(fontSize);
         paintText.setTypeface(Typeface.DEFAULT_BOLD);
+        this.setUseScaledPixels(true);
+        this.setUseTranslatedPixels(true);
         this.setText(text);
     }
 
@@ -41,8 +43,8 @@ public class Button extends GameObject {
         float cy = y + h / 2.0f;
         Rect r = new Rect();
         paintText.getTextBounds(text, 0, text.length(), r);
-        this.tx = (int) (cx - r.exactCenterX());
-        this.ty = (int) (cy - r.exactCenterY());
+        this.tx = (int)(cx - r.exactCenterX());
+        this.ty = (int)(cy - r.exactCenterY());
     }
 
     @Override
@@ -58,8 +60,7 @@ public class Button extends GameObject {
     }
 
     // Sets the size of the touch / collision detector
-    @Override
-    public void updateCollisionRect() {
+    @Override public void updateCollisionRect() {
         collisionRect.set(x, y, x + w, y + h);
     }
 
