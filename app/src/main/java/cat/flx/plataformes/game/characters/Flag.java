@@ -9,7 +9,7 @@ public class Flag extends GameObject {
     public Flag(Game game, int x, int y) {
         super(game, x, y);
         this.addTag("flag");
-        this.addSpriteSequence(0, 90000);
+        this.addSpriteSequence(0, 20013);
         SpriteSequence spriteSequence = getCurrentSpriteSequence();
         spriteSequence.randomizeSprite();
     }

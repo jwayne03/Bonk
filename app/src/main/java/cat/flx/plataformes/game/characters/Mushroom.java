@@ -9,7 +9,7 @@ import cat.flx.plataformes.engine.SpriteSequence;
 // An crab-like enemy
 public class Mushroom extends GameObject {
     // Crab specific attributes
-    private final int x0, x1;
+    private int x0, x1;
     private int incX;
 
     // Constructor

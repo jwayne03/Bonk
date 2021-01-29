@@ -19,7 +19,7 @@ public class MushroomLife extends GameObject {
         this.incX = 1;
         this.addTag("mushroomlife");
         this.addSpriteSequence(0, 20011);
-        Log.d("xd", "Mushroom: ");
+        Log.d("xd", "MushroomLife: ");
     }
 
     // The crab moves horizontally between x0 and x1

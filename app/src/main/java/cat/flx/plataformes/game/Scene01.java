@@ -1,13 +1,17 @@
 package cat.flx.plataformes.game;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 
@@ -21,6 +25,7 @@ import cat.flx.plataformes.engine.Touch;
 import cat.flx.plataformes.game.characters.Bonk;
 import cat.flx.plataformes.game.characters.Coin;
 import cat.flx.plataformes.game.characters.Crab;
+import cat.flx.plataformes.game.characters.Flag;
 import cat.flx.plataformes.game.characters.Lava;
 import cat.flx.plataformes.game.characters.Mushroom;
 import cat.flx.plataformes.game.characters.MushroomLife;
@@ -75,6 +80,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         this.addContactListener("bonk", "prinprin", this);
         this.addContactListener("bonk", "mushroom", this);
         this.addContactListener("bonk", "mushroomlife", this);
+        this.addContactListener("bonk", "flag", this);
         // Prepare the painters for drawing
         paintScore = new Paint();
         Typeface typeface = ResourcesCompat.getFont(this.getContext(), R.font.dseg);
@@ -147,6 +153,14 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
             int lavaY = Integer.parseInt(parts2[1].trim()) * 16;
             return new Lava(game, lavaX, lavaY);
         }
+
+        if (cmd.equals("FLAG")) {
+            String[] parts2 = args.split(",");
+            if (parts2.length != 2) return null;
+            int flagX = Integer.parseInt(parts2[0].trim()) * 16;
+            int flagY = Integer.parseInt(parts2[1].trim()) * 16;
+            return new Flag(game, flagX, flagY);
+        }
         // Test the common basic parser
         return super.parseLine(cmd, args);
     }
@@ -172,7 +186,7 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
                 if (bonk.getBonklife() > 0) {
                     bonk.reset(0, 0);
                 } else {
-                    game.loadScene(new MenuScene(game));
+                    game.loadScene(new GameOver(game));
                 }
             } else if (game.isPaused()) game.resume();
             else game.pause();
@@ -231,8 +245,14 @@ class Scene01 extends TiledScene implements OnContactListener, GameObject.OnTouc
         }
         // Contact between Bonk mushroom -> life boost
         else if (tag2.equals("mushroomlife")) {
-            bonk.setVx(bonk.getVx() * 2);
+            if (bonk.getBonklife() >= 3) {
+                bonk.setBonklife(3);
+            } else {
+                bonk.setBonklife(bonk.getBonklife() + 1);
+            }
             object2.removeFromScene();
+        } else if (tag2.equals("flag")) {
+            game.loadScene(new MenuScene(game));
         }
     }
 
